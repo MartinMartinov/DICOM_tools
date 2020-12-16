@@ -1,0 +1,4 @@
+Marrow_Yellow 0.99
+Marrow_Yellow-Red 1.015
+Marrow_Red 1.045
+Ref_Male_FemoraU 1.1

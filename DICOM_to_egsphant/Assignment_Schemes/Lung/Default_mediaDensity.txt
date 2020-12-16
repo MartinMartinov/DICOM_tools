@@ -1,0 +1,9 @@
+AIR_TG43 0.0012
+Ref_Male_AdiposeT 0.950
+Ref_Male_Blood 1.060
+Ref_Male_MineralBone 1.920
+Ref_Male_MuscleTissue 1.050
+Ref_Male_Cartilage 1.100
+Ref_Male_Prostate 1.030
+CALCIFICATION_ICRU46 3.06
+RECTUM_ICRP23 0.75

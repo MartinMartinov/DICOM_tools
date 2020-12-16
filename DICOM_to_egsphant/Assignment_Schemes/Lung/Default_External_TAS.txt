@@ -1,0 +1,5 @@
+AIR_TG43 0.1
+Ref_Male_AdiposeT 1.000
+Ref_Male_MuscleTissue 1.15
+Ref_Male_Cartilage 1.4
+Ref_Male_MineralBone 1.85

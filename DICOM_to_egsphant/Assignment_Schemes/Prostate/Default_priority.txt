@@ -1,0 +1,9 @@
+External 100
+Adipose  101
+Muscle   102
+Artery   103
+Bone     104
+Femur_L  105
+Femur_R  106
+Rectum   107
+Prostate 108

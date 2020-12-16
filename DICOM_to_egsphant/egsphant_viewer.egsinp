@@ -1,0 +1,127 @@
+:start input loop:
+loop count = 1
+##############################
+# Cut Offs ###################
+##############################
+loop variable = 2 ECUT 0.512 # Is also used for ESAVE to insure TVR
+loop variable = 2 PCUT 0.001
+##############################
+# Run Parameters #############
+##############################
+ loop variable = 2 RUNMODE first
+#loop variable = 2 HISTORIES 1000000000000000 #E14
+#loop variable = 2 HISTORIES 160000000000000  #E14
+#loop variable = 2 HISTORIES 10000000000000   #E13
+#loop variable = 2 HISTORIES 1600000000000    #E12
+#loop variable = 2 HISTORIES 100000000000     #E11
+#loop variable = 2 HISTORIES 10000000000      #E10
+#loop variable = 2 HISTORIES 5000000000       #E9
+#loop variable = 2 HISTORIES 100000000        #E8
+#loop variable = 2 HISTORIES 25000000         #E7
+#loop variable = 2 HISTORIES 1000000          #E6
+#loop variable = 2 HISTORIES 100000           #E5
+#loop variable = 2 HISTORIES 10000            #E4
+#loop variable = 2 HISTORIES 1000             #E3
+#loop variable = 2 HISTORIES 100              #E2
+#loop variable = 2 HISTORIES 10               #E1
+#loop variable = 2 HISTORIES 1                #E0
+ loop variable = 2 HISTORIES 1000000
+ loop variable = 2 BATCHNUM 10
+##############################
+# Variance Reduction #########
+##############################
+loop variable = 2 XCSE 512
+##############################
+# SPECTRUM ###################
+##############################
+loop variable = 2 ENERGY 0.020
+##############################
+###########################################
+:start media definition:
+	# Highest energy Pd-103 photon is 497.1 keV in
+	# /home/rthomson/HEN_HOUSE_brachy_distrib/spectra/Pd103_TG43.spectrum
+    AE                 = $(ECUT)
+    UE                 = 1.512
+    AP                 = $(PCUT)
+    UP                 = 1.001
+    material data file = /home/martinov/EGSnrc/EGSnrc/egs_home/egs_chamber/Multiscale_material.dat
+:stop media definition:
+###########################################
+###########################################
+:start geometry definition:
+	:start geometry:
+		library       = egs_glib
+		name          = phantom
+		egsphant file = PrimaryOutput.egsphant
+	:stop geometry:
+	
+	simulation geometry = phantom
+:stop geometry definition:
+###########################################
+###########################################
+:start source definition:
+	:start source:
+		library          = egs_fano_source
+		name             = the_source
+		geometry         = Recursive_Phantom
+		max mass density = 19.32
+		charge           = -1
+		:start shape:
+			type     = box
+			box size = 25E-4
+		:stop shape:
+		:start spectrum:
+			type   = monoenergetic
+			energy = $(ENERGY)
+		:stop spectrum:
+	:stop source:
+		
+	simulation source = the_source
+:stop source definition:
+###########################################
+###########################################
+:start run control:
+	ncase       = $(HISTORIES)
+	nbatch      = $(BATCHNUM)
+	calculation = $(RUNMODE)
+:stop run control:
+###########################################
+###########################################
+:start rng definition:
+	type            = ranmar
+	initial seeds   = 20 16
+	high resolution = yes
+:stop rng definition:
+###########################################
+###########################################
+:start scoring options:
+	silent              = 0
+	multiregion scoring = 1
+		
+	:start calculation geometry:
+		geometry name   = Recursive_Phantom
+		cavity regions  = 0             1             5          
+		cavity mass     = 7.47640122e-9 1.1309734e-10 4.0357898e-10
+		# 20/(0.0025^3+4/3*pi*(0.0003055^3-0.0003005^3)*3.401930E+15*(4/3*pi*(25E-7)^3)*18.32)*1.60217662E-13
+		# 0.00020477023 Gy/hist
+	:stop calculation geometry:
+:stop scoring options:
+###########################################
+###########################################
+:start variance reduction:
+	cs enhancement = 0
+	TmpPhsp        = 0
+:stop variance reduction:
+###########################################
+###########################################
+:start MC transport parameter:
+	global PCUT                = $(PCUT)
+	global ECUT                = $(ECUT)
+	photon cross sections      = xcom
+	pair angular sampling      = Off
+	rayleigh scattering        = On
+	brems cross sections       = NRC
+	electron impact ionization = On
+:stop MC transport parameter:
+###########################################
+:stop input loop:

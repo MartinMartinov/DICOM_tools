@@ -1,0 +1,4 @@
+Marrow_Yellow 0.99
+Marrow_Yellow-Red 1.015
+Marrow_Red 1.1
+Ref_Male_MineralBone 1.920
